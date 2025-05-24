@@ -63,7 +63,7 @@ void CAN1_FilterConfig(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t led_no = 0;
 /* USER CODE END 0 */
 
 /**
@@ -288,19 +288,23 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     UNUSED(htim);
-    //CAN1_TX
+    CAN1_Tx();
 }
 
 void CAN1_Tx(void)
 {
 	uint32_t TxMailbox;
-	uint8_t msg[12] = {'R','0','M',' ','D','y','n','a','m','i','c','s'};
+	uint8_t msg;
+	msg = ++led_no;
+	if(led_no == 4) {led_no = 0;}
 
 	CAN_TxHeaderTypeDef TxHeader;
-	TxHeader.DLC = 8;
-	TxHeader.StdId = 0x45D;
+	TxHeader.DLC = 1;
+	TxHeader.StdId = 0x65D;
 	TxHeader.IDE = CAN_ID_STD;
 	TxHeader.RTR = CAN_RTR_DATA;
+
+	HAL_GPIO_TogglePin (GPIOD, GPIO_PIN_12);
 
 	if( HAL_CAN_AddTxMessage (&hcan1, &TxHeader, msg, &TxMailbox) != HAL_OK)
 	{

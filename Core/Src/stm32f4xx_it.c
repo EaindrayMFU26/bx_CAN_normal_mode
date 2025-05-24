@@ -205,6 +205,7 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
+	HAL_TIM_Base_Start_IT(&htim9);
 
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
@@ -261,6 +262,7 @@ void CAN1_SCE_IRQHandler(void)
 void TIM1_BRK_TIM9_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_BRK_TIM9_IRQn 0 */
+
 
   /* USER CODE END TIM1_BRK_TIM9_IRQn 0 */
   HAL_TIM_IRQHandler(&htim9);
